@@ -62,7 +62,6 @@ function getArticles() {
 }
 
 function addArticle(articleDetail) {
-  setTimeout(()=> {
     const article = {
       id: articleDetail.id,
       title: articleDetail.title,
@@ -73,7 +72,6 @@ function addArticle(articleDetail) {
       fullText: articleDetail.fullText
     };
     articles.push(article);
-  }, 0);
 }
 
 function getArticleById(id) {
@@ -92,4 +90,4 @@ const newId = (function getNewId() {
   };
 })();
 
-export { getArticles, newId, getArticleById };
+export { getArticles, newId, getArticleById, addArticle };

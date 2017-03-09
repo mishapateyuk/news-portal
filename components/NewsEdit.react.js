@@ -1,41 +1,68 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { newId } from '../models/articleModel.js';
-import { browserHistory } from 'react-router'
+import { browserHistory, withRouter, Link } from 'react-router';
+import { getTags } from '../models/tagsModel.js';
+import { addArticle, getArticleById, newId } from '../models/articleModel.js';
 
-
-export default class NewsEdit extends React.Component {
-  createNews() {
-    alert(1);
+class NewsEdit extends React.Component {
+  constructor() {
+    super();
+    this.createNews = this.createNews.bind(this);
+    this.currentDate = (new Date()).toISOString().slice(0, -5).split('T').join(' ');
   }
+
+  createNews(e) {
+    const tags = (Array.from(this.select.selectedOptions)).map((option) => option.value);
+    const newsInfo = {
+      id: newId(),
+      title: this.titleInput.value,
+      author: "author",
+      tags: tags,
+      date: this.currentDate,
+      description: this.shortDescription.value,
+      fullText: this.fullDescription.value,
+    }
+    addArticle(newsInfo);
+    this.props.router.push(`detail/${newsInfo.id}`);
+  }
+
   render() {
-    const id = newId();
     return (
       <div className="news-wrapper">
         <p className="input-wrapper">
-          <span>ID:</span>
-          <input id="news-id" disabled value={id} />
-        </p>
-        <p className="input-wrapper">
           <span>Title:</span>
-          <input id="title" placeholder="title"/>
+          <input placeholder="title" ref={(input) => this.titleInput = input} />
         </p>
         <p className="input-wrapper">
           <span>Author:</span>
-          <input id="author" disabled value="author"/>
+          <input disabled value="author" />
         </p>
         <p className="input-wrapper">
           <span>Publish date:</span>
-          <input id="publish-date" disabled value={(new Date()).toISOString().slice(0, -5).split('T').join(' ')}/>
+          <input disabled value={this.currentDate} />
         </p>
         <p className="input-wrapper">
           <span>Tags:</span>
-          <input id="tags" placeholder="tags"/>
+          <select placeholder="tags" multiple ref={(select) => this.select = select}>
+            {getTags().map((tag, index) => <option key={index}>{tag}</option>)}
+          </select>
         </p>
-        <textarea id="s-descriton" rows="10" cols="50" maxLength="200" placeholder="short description"></textarea>
-        <textarea id="description" rows="10" cols="50" placeholder="full description"></textarea>
-        <button className="button add-news" onClick={this.createNews}> Create news </button>
+        <textarea
+          rows="10"
+          cols="50"
+          maxLength="200"
+          placeholder="short description"
+          ref={(textarea) => this.shortDescription = textarea}
+        />
+        <textarea
+          rows="10"
+          cols="50"
+          placeholder="full description"
+          ref={(textarea) => this.fullDescription = textarea}
+        />
+        <button className="button add-news" onClick={this.createNews} type="submit"> Create news </button>
       </div>
     )
   }
 }
+
+export default withRouter(NewsEdit);
