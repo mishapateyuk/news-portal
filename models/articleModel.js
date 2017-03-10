@@ -77,8 +77,8 @@ function addArticle(articleDetail) {
 function getArticleById(id) {
   return new Promise(
     (resolve, reject) => {
-      const article = articles.filter((item) => item.id == id);
-      setTimeout(() => resolve(article[0]) ,1500);
+      const article = articles.find((item) => item.id == id);
+      setTimeout(() => resolve(article) ,1500);
     }
   );
 }

@@ -3,7 +3,7 @@ html {
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -18,6 +18,31 @@ body {
   content: '';
   display: block;
   clear: both;
+}
+
+.close::after,
+.close::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 20px;
+  height: 3px;
+  background-color: black;
+}
+
+.close::after {
+  transform: rotate(45deg);
+}
+
+.close::before {
+  transform: rotate(-45deg);
+}
+
+.close:hover::after,
+.close:hover::before {
+  background-color: red;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -36,6 +61,41 @@ body {
   height: 100px;
   width: 100%;
   color:  white;
+}
+
+.authorization-wrapper {
+  position: absolute;
+  padding: 20px;
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: white;
+}
+
+.login,
+.password {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 999;
+  top: 0;
+  left: 0;
+}
+
+.show {
+  display: block;
 }
 
 .tooltip {
@@ -94,7 +154,8 @@ body {
   float: right;
 }
 
-.button {
+.button,
+.user-name {
   display: inline-block;
   height: 40px;
   padding: 0 15px;
@@ -109,7 +170,7 @@ body {
 }
 
 .add-news:hover,
-.sign-in:hover {
+.button:hover {
   cursor: pointer;
   background-color: lightBlue;
 }

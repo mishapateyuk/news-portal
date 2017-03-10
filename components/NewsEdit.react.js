@@ -55,10 +55,13 @@ class NewsEdit extends React.Component {
     return (
       <div className="news-wrapper">
         <p className="input-wrapper">
-          Title: <span><input placeholder="title" ref={(input) => this.titleInput = input} maxLength="100"/></span>
+          Title:
+          <span>
+            <input placeholder="title" ref={(input) => this.titleInput = input} maxLength="100" />
+          </span>
         </p>
         <p className="input-wrapper">
-          Author: <input disabled value="author" />
+          Author: <input disabled value={this.props.route.state.user} />
         </p>
         <p className="input-wrapper">
           Publish date: <input disabled value={this.currentDate} />
@@ -69,21 +72,24 @@ class NewsEdit extends React.Component {
             {getTags().map((tag, index) => <option key={index}>{tag}</option>)}
           </select>
         </p>
-
-        <span><textarea
-          rows="10"
-          cols="50"
-          maxLength="200"
-          placeholder="short description"
-          ref={(textarea) => this.shortDescription = textarea}
-        /></span>
+        <span>
+          <textarea
+            rows="10"
+            cols="50"
+            maxLength="200"
+            placeholder="short description"
+            ref={(textarea) => this.shortDescription = textarea}
+          />
+        </span>
         <br />
-        <span><textarea
-          rows="10"
-          cols="50"
-          placeholder="full description"
-          ref={(textarea) => this.fullDescription = textarea}
-        /></span>
+        <span>
+          <textarea
+            rows="10"
+            cols="50"
+            placeholder="full description"
+            ref={(textarea) => this.fullDescription = textarea}
+          />
+        </span>
         <br />
         <button className="button add-news" onClick={this.createNews} type="submit"> Create news </button>
       </div>
