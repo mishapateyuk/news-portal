@@ -1,12 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import UserName from './UserName.react';
 import { checkAuthorizationData } from '../models/authorizationModel.js';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
     this.togglePopup = this.togglePopup.bind(this);
     this.signInButtonHandler = this.signInButtonHandler.bind(this);
+    this.signOutButtonHandler = this.signOutButtonHandler.bind(this);
   }
 
   togglePopup() {
@@ -14,14 +16,27 @@ export default class Header extends React.Component {
   }
 
   signInButtonHandler() {
-    this.userName = this.loginInput.value;
+    const userName = this.loginInput.value;
     const password = this.passwordInput.value;
-    if (checkAuthorizationData(this.userName, password)) {
-      this.props.changeUser(this.userName);
+    if (checkAuthorizationData(userName, password)) {
+      this.props.changeUser(userName);
     } else {
       // error
     }
     this.togglePopup();
+  }
+
+  signOutButtonHandler() {
+    if (this.context.user !== 'Guest') {
+      this.props.changeUser('Guest');
+      this.props.router.push('/');
+    }
+  }
+
+  showSignOutButton() {
+    if (this.context.user !== 'Guest') {
+      return <button className="sign-in button" onClick={this.signOutButtonHandler}>Sign out</button>
+    }
   }
 
   render() {
@@ -40,9 +55,16 @@ export default class Header extends React.Component {
             <button className="button" onClick={this.signInButtonHandler}>Sign in</button>
           </div>
         </div>
+        {this.showSignOutButton()}
         <button className="sign-in button" onClick={this.togglePopup}>Sign in</button>
-        <UserName getUser={this.props.getUser}/>
+        <UserName/>
       </header>
     )
   }
 }
+
+Header.contextTypes = {
+  user: React.PropTypes.string
+};
+
+export default withRouter(Header);

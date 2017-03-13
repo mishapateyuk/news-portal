@@ -6,36 +6,41 @@ import NewsEdit from './NewsEdit.react';
 import ErrorPage from './ErrorPage.react';
 import NewsList from './NewsList.react';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
       user: 'Guest',
     };
     this.changeUser = this.changeUser.bind(this);
-    this.getUser = this.getUser.bind(this);
-  }
+  };
 
   changeUser(user) {
     this.setState({
       user
     });
-  }
+  };
 
-  getUser() {
-    return this.state.user;
-  }
+  getChildContext() {
+    return {user: this.state.user};
+  };
 
   render() {
     return (
       <Router history={hashHistory}>
-        <Route path='/' component={MainPage} changeUser={this.changeUser} getUser={this.getUser}>
+        <Route path='/' component={MainPage} changeUser={this.changeUser}>
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
-          <Route path='/add' component={NewsEdit} getUser={this.getUser}/>
+          <Route path='/add' component={NewsEdit}/>
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>
     )
-  }
+  };
 }
+
+App.childContextTypes = {
+  user: React.PropTypes.string
+};
+
+export default App;

@@ -5,14 +5,21 @@ import Header from './Header.react';
 import { Link } from 'react-router';
 
 
-export default class MainPage extends React.Component {
+class MainPage extends React.Component {
+
+  showButton() {
+    if (this.context.user !== 'Guest') {
+      return <Link to="/add" className="button add-news">Add news</Link>
+    }
+  }
+
   render() {
     return (
       <div>
         <Wrapper className="wrapper" >
-          <Header changeUser={this.props.route.changeUser} getUser={this.props.route.getUser}/>
+          <Header changeUser={this.props.route.changeUser}/>
           <div className="buttons-wrapper">
-            <Link to="/add" className="button add-news">Add news</Link>
+            {this.showButton()}
             <Link to="/" className="button add-news">Show news</Link>
             <span className="button add-news">Filters</span>
           </div>
@@ -23,3 +30,9 @@ export default class MainPage extends React.Component {
     )
   }
 }
+
+MainPage.contextTypes = {
+  user: React.PropTypes.string
+}
+
+export default MainPage;

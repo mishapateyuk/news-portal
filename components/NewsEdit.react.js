@@ -36,7 +36,6 @@ class NewsEdit extends React.Component {
     const tags = (Array.from(this.select.selectedOptions)).map((option) => option.value);
     const newsInfo = {
       title: this.titleInput.value,
-      author: "author",
       tags: tags,
       date: this.currentDate,
       description: this.shortDescription.value,
@@ -61,7 +60,7 @@ class NewsEdit extends React.Component {
           </span>
         </p>
         <p className="input-wrapper">
-          Author: <input disabled value={this.props.route.getUser()} />
+          Author: <input disabled value={this.context.user} />
         </p>
         <p className="input-wrapper">
           Publish date: <input disabled value={this.currentDate} />
@@ -96,5 +95,9 @@ class NewsEdit extends React.Component {
     )
   }
 }
+
+NewsEdit.contextTypes = {
+  user: React.PropTypes.string
+};
 
 export default withRouter(NewsEdit);
