@@ -61,7 +61,7 @@ class NewsEdit extends React.Component {
           </span>
         </p>
         <p className="input-wrapper">
-          Author: <input disabled value={this.props.route.state.user} />
+          Author: <input disabled value={this.props.route.getUser()} />
         </p>
         <p className="input-wrapper">
           Publish date: <input disabled value={this.currentDate} />

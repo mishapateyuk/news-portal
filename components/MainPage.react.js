@@ -10,7 +10,7 @@ export default class MainPage extends React.Component {
     return (
       <div>
         <Wrapper className="wrapper" >
-          <Header changeUser={this.props.route.changeUser} state={this.props.route.state}/>
+          <Header changeUser={this.props.route.changeUser} getUser={this.props.route.getUser}/>
           <div className="buttons-wrapper">
             <Link to="/add" className="button add-news">Add news</Link>
             <Link to="/" className="button add-news">Show news</Link>

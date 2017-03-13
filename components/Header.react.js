@@ -14,12 +14,12 @@ export default class Header extends React.Component {
   }
 
   signInButtonHandler() {
-    const userName = this.loginInput.value;
+    this.userName = this.loginInput.value;
     const password = this.passwordInput.value;
-    if (checkAuthorizationData(userName, password)) {
-      this.props.changeUser(userName);
+    if (checkAuthorizationData(this.userName, password)) {
+      this.props.changeUser(this.userName);
     } else {
-      // error page will be here
+      // error
     }
     this.togglePopup();
   }
@@ -41,7 +41,7 @@ export default class Header extends React.Component {
           </div>
         </div>
         <button className="sign-in button" onClick={this.togglePopup}>Sign in</button>
-        <UserName userName={this.props.state.user}/>
+        <UserName getUser={this.props.getUser}/>
       </header>
     )
   }

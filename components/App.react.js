@@ -13,6 +13,7 @@ export default class App extends React.Component {
       user: 'Guest',
     };
     this.changeUser = this.changeUser.bind(this);
+    this.getUser = this.getUser.bind(this);
   }
 
   changeUser(user) {
@@ -21,13 +22,17 @@ export default class App extends React.Component {
     });
   }
 
+  getUser() {
+    return this.state.user;
+  }
+
   render() {
     return (
       <Router history={hashHistory}>
-        <Route path='/' component={MainPage} changeUser={this.changeUser} state={this.state}>
+        <Route path='/' component={MainPage} changeUser={this.changeUser} getUser={this.getUser}>
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
-          <Route path='/add' component={NewsEdit} state={this.state}/>
+          <Route path='/add' component={NewsEdit} getUser={this.getUser}/>
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>
