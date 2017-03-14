@@ -33,8 +33,8 @@ class App extends React.Component {
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
           <Route path='/add' component={NewsEdit} />
-          <Route path='edit/:id' component={NewsEdit} />
-          <Route path='remove/:id' component={RemoveNews} />
+          <Route path='/edit/:id' component={NewsEdit} />
+          <Route path='/remove/:id' component={RemoveNews} />
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>

@@ -1,59 +1,4 @@
-var articles = [
-  {
-    id: 1,
-    title: 'news1',
-    author: 'author',
-    tags: ['sdfg', 'dsfg', 'wert', 'jhfgjh'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-  {
-    id: 2,
-    title: 'news2',
-    author: 'author',
-    tags: ['123', '1231234', '123', 'asdf'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-  {
-    id: 3,
-    title: 'news3',
-    author: 'author',
-    tags: ['adf', 'ghhdg', '123', 'ghfgmhb'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-  {
-    id: 4,
-    title: 'news4',
-    author: 'author',
-    tags: ['adf', 'fg', '123', 'ghfgmhb'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-  {
-    id: 5,
-    title: 'news5',
-    author: 'author',
-    tags: ['adf', 'ghhdg', '123', 'ghfgmhb'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-  {
-    id: 6,
-    title: 'news6',
-    author: 'author',
-    tags: ['adf', 'ghhdg', '123', 'ghfgmhb'],
-    date: '10.10.2010',
-    description: 'Lorem Ipsum',
-    fullText: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`
-  },
-]
+var articles = [];
 
 function getArticles() {
   return new Promise((resolve, reject) => {
@@ -81,13 +26,24 @@ function getArticleById(id) {
       setTimeout(() => resolve(article) ,1500);
     }
   );
+};
+
+function editArticle(id, editedArticle) {
+  let article = articles.find((item) => item.id == id);
+  article = Object.assign(article, editedArticle);
+};
+
+function deleteArticle(id) {
+  const article = articles.find((item) => item.id == id);
+  const index = articles.indexOf(article);
+  articles.splice(index, 1);
 }
 
 const newId = (function getNewId() {
-  let id = 6;
+  let id = 0;
   return function() {
     return ++id;
   };
 })();
 
-export { getArticles, newId, getArticleById, addArticle };
+export { getArticles, newId, getArticleById, addArticle, editArticle, deleteArticle };
