@@ -59,7 +59,7 @@ function getArticles() {
   return new Promise((resolve, reject) => {
     setTimeout(()=> resolve(articles), 1500);
   });
-}
+};
 
 function addArticle(articleDetail) {
     const article = {
@@ -72,7 +72,7 @@ function addArticle(articleDetail) {
       fullText: articleDetail.fullText
     };
     articles.push(article);
-}
+};
 
 function getArticleById(id) {
   return new Promise(

@@ -9,9 +9,9 @@ class MainPage extends React.Component {
 
   showButton() {
     if (this.context.user !== 'Guest') {
-      return <Link to="/add" className="button add-news">Add news</Link>
+      return <Link to="/add" className="button add-news">Add news</Link>;
     }
-  }
+  };
 
   render() {
     return (
@@ -27,12 +27,12 @@ class MainPage extends React.Component {
         </Wrapper>
         <Footer />
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 MainPage.contextTypes = {
   user: React.PropTypes.string
-}
+};
 
 export default MainPage;

@@ -5,6 +5,7 @@ import NewsDetail from './NewsDetail.react';
 import NewsEdit from './NewsEdit.react';
 import ErrorPage from './ErrorPage.react';
 import NewsList from './NewsList.react';
+import RemoveNews from './RemoveNews.react';
 
 class App extends React.Component {
   constructor() {
@@ -31,13 +32,15 @@ class App extends React.Component {
         <Route path='/' component={MainPage} changeUser={this.changeUser}>
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
-          <Route path='/add' component={NewsEdit}/>
+          <Route path='/add' component={NewsEdit} />
+          <Route path='edit/:id' component={NewsEdit} />
+          <Route path='remove/:id' component={RemoveNews} />
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>
-    )
+    );
   };
-}
+};
 
 App.childContextTypes = {
   user: React.PropTypes.string

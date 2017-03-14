@@ -10,6 +10,6 @@ function checkAuthorizationData(login, password) {
       item.password === password
     }
   );
-}
+};
 
 export { checkAuthorizationData };

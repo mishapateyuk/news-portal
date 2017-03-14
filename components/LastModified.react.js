@@ -6,6 +6,6 @@ export default class LastModified extends React.Component {
       <span className="last-modified">
         {this.props.lastModified}
       </span>
-    )
-  }
-}
+    );
+  };
+};

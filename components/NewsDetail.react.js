@@ -7,8 +7,8 @@ export default class NewsDetails extends React.Component {
     super(props);
     this.state = {
       loaded: false,
-    }
-  }
+    };
+  };
 
   componentDidMount() {
     const id = this.props.routeParams.id;
@@ -23,32 +23,32 @@ export default class NewsDetails extends React.Component {
   };
 
   render() {
-    if (this.state.loaded) {
-      return (
-        <div className="newsWrapper">
-          <p>
-            <b>Title: </b>{this.state.article.title}
-          </p>
-          <p>
-            <b>Author: </b>{this.state.article.author}
-          </p>
-          <p>
-            <b>Date: </b>{this.state.article.title}
-          </p>
-          <p>
-            <b>Tags: </b>{this.state.article.tags.join(', ')}
-          </p>
-          <p>
-            <b>Description: </b>{this.state.article.fullText}
-          </p>
-        </div>
-      )
-    } else {
+  if (this.state.loaded) {
+    return (
+      <div className="newsWrapper">
+        <p>
+          <b>Title: </b>{this.state.article.title}
+        </p>
+        <p>
+          <b>Author: </b>{this.state.article.author}
+        </p>
+        <p>
+          <b>Date: </b>{this.state.article.title}
+        </p>
+        <p>
+          <b>Tags: </b>{this.state.article.tags.join(', ')}
+        </p>
+        <p>
+          <b>Description: </b>{this.state.article.fullText}
+        </p>
+      </div>
+    );
+  } else {
       return (
         <div className="news-wrapper clearfix">
           <Loading />
         </div>
-      )
+      );
     }
   };
-}
+};

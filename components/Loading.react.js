@@ -8,5 +8,5 @@ export default function Loading() {
       <div className="loading-bar-3 bar"></div>
       <div className="loading-bar-4 bar"></div>
     </div>
-  )
-}
+  );
+};

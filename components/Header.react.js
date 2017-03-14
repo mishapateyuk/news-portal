@@ -9,11 +9,11 @@ class Header extends React.Component {
     this.togglePopup = this.togglePopup.bind(this);
     this.signInButtonHandler = this.signInButtonHandler.bind(this);
     this.signOutButtonHandler = this.signOutButtonHandler.bind(this);
-  }
+  };
 
   togglePopup() {
     this.popup.classList.toggle('show');
-  }
+  };
 
   signInButtonHandler() {
     const userName = this.loginInput.value;
@@ -24,20 +24,20 @@ class Header extends React.Component {
       // error
     }
     this.togglePopup();
-  }
+  };
 
   signOutButtonHandler() {
     if (this.context.user !== 'Guest') {
       this.props.changeUser('Guest');
       this.props.router.push('/');
     }
-  }
+  };
 
   showSignOutButton() {
     if (this.context.user !== 'Guest') {
-      return <button className="sign-in button" onClick={this.signOutButtonHandler}>Sign out</button>
+      return <button className="sign-in button" onClick={this.signOutButtonHandler}>Sign out</button>;
     }
-  }
+  };
 
   render() {
     return (
@@ -59,9 +59,9 @@ class Header extends React.Component {
         <button className="sign-in button" onClick={this.togglePopup}>Sign in</button>
         <UserName/>
       </header>
-    )
-  }
-}
+    );
+  };
+};
 
 Header.contextTypes = {
   user: React.PropTypes.string

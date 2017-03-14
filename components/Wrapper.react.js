@@ -5,5 +5,5 @@ export default function Wrapper(props) {
       <div className="wrapper">
         {props.children}
       </div>
-    )
-}
+    );
+};

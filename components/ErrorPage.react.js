@@ -6,6 +6,6 @@ export default class ErrorPage extends React.Component {
       <div>
         I'm ERROR page!
       </div>
-    )
-  }
-}
+    );
+  };
+};

@@ -9,7 +9,7 @@ export default class NewsList extends React.Component {
     this.state = {
       loaded: false,
     }
-  }
+  };
 
   componentDidMount() {
     getArticles().then(
@@ -26,15 +26,15 @@ export default class NewsList extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="news-wrapper clearfix">
-          {this.state.articles.map((news) => <NewsItem news={news} key={news.id} id={news.id}/>)}
+          {this.state.articles.map((news) => <NewsItem news={news} key={news.id}/>)}
         </div>
-      )
+      );
     } else {
       return (
         <div className="news-wrapper clearfix">
           <Loading />
         </div>
-      )
+      );
     }
   };
-}
+};

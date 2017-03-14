@@ -13,6 +13,6 @@ export default class Footer extends React.Component {
             designed by: <a href="https://github.com/mishapateyuk">Misha</a>
           </p>
       </footer>
-    )
-  }
-}
+    );
+  };
+};
