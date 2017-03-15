@@ -21,7 +21,7 @@ class Header extends React.Component {
     if (checkAuthorizationData(userName, password)) {
       this.props.changeUser(userName);
     } else {
-      // error
+      this.props.router.push('/error');
     }
     this.togglePopup();
   };

@@ -11,15 +11,25 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: 'Guest',
+      user: localStorage.getItem('username') || 'Guest',
     };
     this.changeUser = this.changeUser.bind(this);
+    this.requireAuth = this.requireAuth.bind(this);
   };
 
   changeUser(user) {
+    localStorage.setItem('username', user);
     this.setState({
       user
     });
+  };
+
+  requireAuth(nextState, replace) {
+    if (this.state.user === 'Guest') {
+        replace({
+        pathname: '/error',
+      })
+    }
   };
 
   getChildContext() {
@@ -32,9 +42,9 @@ class App extends React.Component {
         <Route path='/' component={MainPage} changeUser={this.changeUser}>
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
-          <Route path='/add' component={NewsEdit} />
-          <Route path='/edit/:id' component={NewsEdit} />
-          <Route path='/remove/:id' component={RemoveNews} />
+          <Route path='/add' component={NewsEdit} onEnter={this.requireAuth}/>
+          <Route path='/edit/:id' component={NewsEdit} onEnter={this.requireAuth}/>
+          <Route path='/remove/:id' component={RemoveNews} onEnter={this.requireAuth}/>
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>
