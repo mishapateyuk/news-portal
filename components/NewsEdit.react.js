@@ -3,6 +3,7 @@ import { browserHistory, withRouter, Link } from 'react-router';
 import { getTags } from '../models/tagsModel.js';
 import { addArticle, getArticleById, newId, editArticle } from '../models/articleModel.js';
 import Loading from './Loading.react';
+import Select from './Select.react';
 
 class NewsEdit extends React.Component {
   constructor() {
@@ -14,6 +15,7 @@ class NewsEdit extends React.Component {
     this.addNews = this.addNews.bind(this);
     this.editNews = this.editNews.bind(this);
     this.currentDate = (new Date()).toISOString().slice(0, -5).split('T').join(' ');
+    this.onChangeTags = this.onChangeTags.bind(this);
   };
 
   validateNewsData(data) {
@@ -39,7 +41,7 @@ class NewsEdit extends React.Component {
   };
 
   getNewsInfo() {
-    const tags = (Array.from(this.select.selectedOptions)).map((option) => option.value);
+    const tags = this.state.tags.map((tag) => tag.value);
     const newsInfo = {
       title: this.titleInput.value,
       tags: tags,
@@ -73,16 +75,22 @@ class NewsEdit extends React.Component {
     }
   };
 
+  onChangeTags(value) {
+    this.setState({
+      tags: value,
+    });
+  };
+
   createButton() {
     if (this.props.route.path !== '/add') {
       return (
-        <button className="button add-news" onClick={this.editNews} type="submit">
+        <button className="button add-news" onClick={this.editNews}>
           Edit news
         </button>
       );
     }
     return (
-      <button className="button add-news" onClick={this.addNews} type="submit">
+      <button className="button add-news" onClick={this.addNews}>
         Create news
       </button>
     );
@@ -100,22 +108,11 @@ class NewsEdit extends React.Component {
     }
   };
 
-  getOptions() {
-    if (this.props.route.path !== '/add') {
-      return getTags().map(
-        (tag, index) => {
-          if (~this.state.news.tags.indexOf(tag)) {
-            return <option selected key={index}>{tag}</option>
-          }
-          return <option key={index}>{tag}</option>
-        }
-      );
-    }
-    return getTags().map((tag, index) => <option key={index}>{tag}</option>);
-  };
-
   render() {
     if (!this.props.routeParams.id || this.state.loaded) {
+      const tagsOptions = getTags().map((tag) => {
+        return {value: tag, label:tag};
+      });
       return (
         <div className="news-wrapper">
           <p className="input-wrapper">
@@ -133,18 +130,20 @@ class NewsEdit extends React.Component {
             Author:
             <input
               disabled
-              value={(this.state.news && this.state.news.author)|| this.context.user}
+              value={(this.state.news && this.state.news.author) || this.context.user}
             />
           </p>
           <p className="input-wrapper">
             Publish date: <input disabled value={this.currentDate} />
           </p>
-          <p className="input-wrapper">
             Tags: 
-            <select placeholder="tags" multiple ref={(select) => this.select = select}>
-              {this.getOptions()}
-            </select>
-          </p>
+            <Select
+              options={tagsOptions}
+              multi
+              className="modal-select"
+              onChange={this.onChangeTags}
+              value={this.state.tags}
+            />
           <span>
             <textarea
               rows="10"

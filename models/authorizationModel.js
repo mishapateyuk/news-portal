@@ -12,4 +12,8 @@ function checkAuthorizationData(login, password) {
   );
 };
 
-export { checkAuthorizationData };
+function getUsers() {
+  return authorizationData.map((data) => data.login);
+}
+
+export { checkAuthorizationData, getUsers };

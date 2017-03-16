@@ -1,7 +1,13 @@
 import React from 'react';
 import NewsItem from './NewsItem.react';
 import Loading from './Loading.react';
+import Modal from './Modal.react';
+import Select from './Select.react';
 import { getArticles } from '../models/articleModel.js';
+import { getUsers } from '../models/authorizationModel.js';
+import { getTags } from '../models/tagsModel.js';
+import Calendar from 'rc-calendar'; //http://react-component.github.io/calendar/
+import 'rc-calendar/assets/index.css';
 
 export default class NewsList extends React.Component {
   constructor(props) {
@@ -9,21 +15,25 @@ export default class NewsList extends React.Component {
     this.state = {
       loaded: false,
     };
-    this.sortArticles = this.sortArticles.bind(this);
-    this.sortByDate = this.sortByDate.bind(this);
-    this.sortByTag = this.sortByTag.bind(this);
-    this.sortByAuthor = this.sortByAuthor.bind(this);
+    this.state = {
+      sortSettings: {
+        author: null,
+        data: null,
+        tags: [],
+      },
+      tags: [],
+      modalIsShown: false,
+    };
+    this.toggleModal = this.toggleModal.bind(this);
+    this.modalButtonHandler = this.modalButtonHandler.bind(this);
+    this.onChangeAuthor = this.onChangeAuthor.bind(this);
+    this.onChangeTags = this.onChangeTags.bind(this);
   };
 
-  componentDidMount() {
-    getArticles().then(
-      (articles) => this.setState(
-        {
-          loaded: true,
-          articles: articles,
-        }
-      )
-    );
+  toggleModal() {
+    this.setState({
+      modalIsShown: !this.state.modalIsShown,
+    });
   };
 
   sortByAuthor(article, author) {
@@ -40,19 +50,94 @@ export default class NewsList extends React.Component {
     return article.date.indexOf(date) !== -1 ? true : false;
   };
 
-  sortByTag(article, tag) {
-    if (!tag.length) {
+  sortByTag(article, tags) {
+    if (!tags.length) {
       return true;
     }
-    return article.tags.indexOf(tag) !== -1 ? true : false;
+    return article.tags.some((articleTag) => tags.includes(articleTag));
   };
 
   sortArticles() {
     this.sortedArticles = this.state.articles.filter((article) => {
-      return this.sortByDate(article, this.context.sortSettings.date) &&
-        this.sortByAuthor(article, this.context.sortSettings.author) &&
-        this.sortByTag(article, this.context.sortSettings.tags)
+      return this.sortByDate(article, this.state.sortSettings.date) &&
+        this.sortByAuthor(article, this.state.sortSettings.author) &&
+        this.sortByTag(article, this.state.sortSettings.tags)
     });
+  };
+
+  createModalChildren() {
+    const authorsOptions = getUsers().map((user) => {
+      return {value: user, label:user};
+    });
+    const tagsOptions = getTags().map((tag) => {
+      return {value: tag, label:tag};
+    });
+    return (
+      <div>
+        Author:
+        <Select
+          options={authorsOptions}
+          className="modal-select"
+          onChange={this.onChangeAuthor}
+          value={this.state.author}
+        />
+        Date:
+        <Calendar className="modal-select"/>
+        Tag:
+        <Select
+          options={tagsOptions}
+          multi
+          className="modal-select"
+          onChange={this.onChangeTags}
+          value={this.state.tags}
+        />
+      </div>
+    );
+  };
+
+  onChangeAuthor(value) {
+    this.setState({
+      author: value,
+    });
+  };
+
+  onChangeTags(value) {
+    this.setState({
+      tags: value,
+    });
+  };
+
+  modalButtonHandler() {
+    this.setState({
+      sortSettings: {
+        author: this.state.author.value,
+        data: this.state.data,
+        tags: this.state.tags.map((tag) => tag.value) || [],
+      },
+    });
+    this.toggleModal();
+  };
+
+  configurateModalSettings() {
+    return {
+      modalIsShown: this.state.modalIsShown,
+      toggleModal: this.toggleModal,
+      modalTitle: 'News filters',
+      modalButtonText: 'Show sorted news',
+      modalChildren: this.createModalChildren(),
+      modalButtonHandler: this.modalButtonHandler,
+    };
+  };
+
+  componentDidMount() {
+    getArticles().then(
+      (articles) => this.setState(
+        {
+          loaded: true,
+          articles: articles,
+        }
+      )
+    );
   };
 
   render() {
@@ -60,12 +145,13 @@ export default class NewsList extends React.Component {
       this.sortArticles();
       return (
         <div className="news-wrapper clearfix">
+          <Modal modalSettings={this.configurateModalSettings()} />
           <div className="buttons-wrapper">
-            <span className="button add-news">
+            <span className="button add-news" onClick={this.toggleModal}>
               Filters
             </span>
           </div>
-          {this.sortedArticles.map((news) => <NewsItem news={news} key={news.id}/>)}
+          {this.sortedArticles.map((news) => <NewsItem news={news} key={news.id} />)}
         </div>
       );
     } else {
@@ -76,8 +162,4 @@ export default class NewsList extends React.Component {
       );
     }
   };
-};
-
-NewsList.contextTypes = {
-  sortSettings: React.PropTypes.object
 };
