@@ -2,7 +2,7 @@ var articles = JSON.parse(localStorage.getItem('news')) || [];
 
 function getArticles() {
   return new Promise((resolve, reject) => {
-    setTimeout(()=> resolve(articles), 1500);
+    setTimeout(()=> resolve(articles.reverse()), 1500);
   });
 };
 

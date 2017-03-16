@@ -66,8 +66,8 @@ body {
 .authorization-wrapper {
   position: absolute;
   padding: 20px;
-  width: 500px;
-  height: 500px;
+  width: 650px;
+  height: 650px;
   border: 1px solid black;
   top: 50%;
   left: 50%;
@@ -162,10 +162,12 @@ body {
   border: 1px solid black;
   line-height: 40px;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
 }
 
 .add-news {
-  text-decoration: none;
   margin-right: 10px;
 }
 
@@ -313,7 +315,7 @@ select {
 .edit-news,
 .remove-news {
   display: block;
-  padding: 10px;
+  padding-top: 30px;
   height: 50%;
   width: 80px;
   border-left: 1px solid black;
@@ -327,4 +329,13 @@ select {
 
 .news p {
   width: 80%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
 }

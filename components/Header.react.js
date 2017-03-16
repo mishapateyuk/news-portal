@@ -57,7 +57,7 @@ class Header extends React.Component {
         </div>
         {this.showSignOutButton()}
         <button className="sign-in button" onClick={this.togglePopup}>Sign in</button>
-        <UserName/>
+        <UserName />
       </header>
     );
   };
