@@ -16,7 +16,7 @@ class MainPage extends React.Component {
     return (
       <div>
         <div className="wrapper">
-          <Header changeUser={this.props.route.changeUser}/>
+          <Header changeUser={this.props.route.changeUser} />
           <div className="buttons-wrapper">
             {this.showButton()}
             <Link to="/" className="button add-news">Show news</Link>
@@ -30,7 +30,7 @@ class MainPage extends React.Component {
 };
 
 MainPage.contextTypes = {
-  user: React.PropTypes.string
+  user: React.PropTypes.string,
 };
 
 export default MainPage;

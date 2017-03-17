@@ -40,7 +40,7 @@ class NewsItem extends React.Component {
 };
 
 NewsItem.contextTypes = {
-  user: React.PropTypes.string
+  user: React.PropTypes.string,
 };
 
 export default NewsItem;

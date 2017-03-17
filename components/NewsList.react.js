@@ -3,11 +3,10 @@ import NewsItem from './NewsItem.react';
 import Loading from './Loading.react';
 import Modal from './Modal.react';
 import Select from './Select.react';
+import FromToDatepicker from './FromToDatepicker.react';
 import { getArticles } from '../models/articleModel.js';
 import { getUsers } from '../models/authorizationModel.js';
 import { getTags } from '../models/tagsModel.js';
-import Calendar from 'rc-calendar'; //http://react-component.github.io/calendar/
-import 'rc-calendar/assets/index.css';
 
 export default class NewsList extends React.Component {
   constructor(props) {
@@ -18,21 +17,39 @@ export default class NewsList extends React.Component {
     this.state = {
       sortSettings: {
         author: null,
-        data: null,
+        date: {from: null, to: Infinity,},
         tags: [],
       },
       tags: [],
+      fromDate: null,
+      toDate: Infinity,
       modalIsShown: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.modalButtonHandler = this.modalButtonHandler.bind(this);
     this.onChangeAuthor = this.onChangeAuthor.bind(this);
     this.onChangeTags = this.onChangeTags.bind(this);
+    this.onChangeDateFrom = this.onChangeDateFrom.bind(this);
+    this.onChangeDateTo = this.onChangeDateTo.bind(this);
   };
 
   toggleModal() {
     this.setState({
       modalIsShown: !this.state.modalIsShown,
+    });
+  };
+
+  onChangeDateFrom(moment) {
+    const fromDate = moment ? new Date(moment._d.toLocaleDateString()).valueOf() : 0;
+    this.setState({
+      fromDate: fromDate,
+    });
+  };
+
+  onChangeDateTo(moment) {
+    const toDate = moment ? new Date(moment._d.toLocaleDateString()).valueOf() + 3 * 3600000: Infinity;
+    this.setState({
+      toDate: toDate,
     });
   };
 
@@ -44,10 +61,10 @@ export default class NewsList extends React.Component {
   };
 
   sortByDate(article, date) {
-    if (!date) {
-      return true;
-    }
-    return article.date.indexOf(date) !== -1 ? true : false;
+    const articleDate = (new Date(article.date)).valueOf();
+    const dateFrom = date.from;
+    const dateTo = date.to ? date.to : Infinity;
+    return articleDate >= dateFrom && articleDate <= dateTo;
   };
 
   sortByTag(article, tags) {
@@ -58,11 +75,11 @@ export default class NewsList extends React.Component {
   };
 
   sortArticles() {
-    this.sortedArticles = this.state.articles.filter((article) => {
-      return this.sortByDate(article, this.state.sortSettings.date) &&
-        this.sortByAuthor(article, this.state.sortSettings.author) &&
-        this.sortByTag(article, this.state.sortSettings.tags)
-    });
+    this.sortedArticles = this.state.articles.filter(
+      (article) => this.sortByDate(article, this.state.sortSettings.date) &&
+      this.sortByAuthor(article, this.state.sortSettings.author) &&
+      this.sortByTag(article, this.state.sortSettings.tags)
+    );
   };
 
   createModalChildren() {
@@ -82,7 +99,9 @@ export default class NewsList extends React.Component {
           value={this.state.author}
         />
         Date:
-        <Calendar className="modal-select"/>
+        <div className="modal-select">
+          <FromToDatepicker onChangeDateTo={this.onChangeDateTo} onChangeDateFrom={this.onChangeDateFrom}/>
+        </div>
         Tag:
         <Select
           options={tagsOptions}
@@ -110,8 +129,8 @@ export default class NewsList extends React.Component {
   modalButtonHandler() {
     this.setState({
       sortSettings: {
-        author: this.state.author.value,
-        data: this.state.data,
+        author: this.state.author && this.state.author.value,
+        date: {from: this.state.fromDate, to: this.state.toDate,},
         tags: this.state.tags.map((tag) => tag.value) || [],
       },
     });
@@ -151,7 +170,7 @@ export default class NewsList extends React.Component {
               Filters
             </span>
           </div>
-          {this.sortedArticles.map((news) => <NewsItem news={news} key={news.id} />)}
+          {this.sortedArticles.map((news, index) => <NewsItem news={news} key={index} />)}
         </div>
       );
     } else {
@@ -160,6 +179,6 @@ export default class NewsList extends React.Component {
           <Loading />
         </div>
       );
-    }
+    };
   };
 };

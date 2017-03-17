@@ -14,6 +14,6 @@ function checkAuthorizationData(login, password) {
 
 function getUsers() {
   return authorizationData.map((data) => data.login);
-}
+};
 
 export { checkAuthorizationData, getUsers };

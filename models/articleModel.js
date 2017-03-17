@@ -2,7 +2,7 @@ var articles = JSON.parse(localStorage.getItem('news')) || [];
 
 function getArticles() {
   return new Promise((resolve, reject) => {
-    setTimeout(()=> resolve(articles.reverse()), 1500);
+    setTimeout(()=> resolve(articles.reverse()), 1000);
   });
 };
 
@@ -14,7 +14,7 @@ function addArticle(articleDetail) {
     tags: articleDetail.tags,
     date: articleDetail.date,
     description: articleDetail.description,
-    fullText: articleDetail.fullText
+    fullText: articleDetail.fullText,
   };
   articles.push(article);
   localStorage.setItem(
@@ -27,7 +27,7 @@ function getArticleById(id) {
   return new Promise(
     (resolve, reject) => {
       const article = articles.find((item) => item.id == id);
-      setTimeout(() => resolve(article) ,1500);
+      setTimeout(() => resolve(article) ,1000);
     }
   );
 };

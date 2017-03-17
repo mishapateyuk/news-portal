@@ -16,7 +16,7 @@ export default class NewsDetails extends React.Component {
       (article)=> this.setState(
         {
           loaded: true,
-          article: article
+          article: article,
         }
       )
     );

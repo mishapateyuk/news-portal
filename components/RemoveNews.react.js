@@ -6,7 +6,7 @@ function RemoveNews(props) {
   function remove() {
     deleteArticle(+props.routeParams.id);
     props.router.push('/');
-  }
+  };
   return (
     <div>
       Do you really wanna delete this news ?

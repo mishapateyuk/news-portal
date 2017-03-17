@@ -22,7 +22,7 @@ class Header extends React.Component {
       this.props.changeUser(userName);
     } else {
       this.props.router.push('/error');
-    }
+    };
     this.toggleModal();
   };
 
@@ -89,7 +89,7 @@ class Header extends React.Component {
 };
 
 Header.contextTypes = {
-  user: React.PropTypes.string
+  user: React.PropTypes.string,
 };
 
 export default withRouter(Header);

@@ -20,7 +20,7 @@ class App extends React.Component {
   changeUser(user) {
     localStorage.setItem('username', user);
     this.setState({
-      user
+      user,
     });
   };
 
@@ -42,9 +42,9 @@ class App extends React.Component {
         <Route path='/' component={MainPage} changeUser={this.changeUser}>
           <IndexRoute component={NewsList} />
           <Route path='/detail/:id' component={NewsDetail} />
-          <Route path='/add' component={NewsEdit} onEnter={this.requireAuth}/>
-          <Route path='/edit/:id' component={NewsEdit} onEnter={this.requireAuth}/>
-          <Route path='/remove/:id' component={RemoveNews} onEnter={this.requireAuth}/>
+          <Route path='/add' component={NewsEdit} onEnter={this.requireAuth} />
+          <Route path='/edit/:id' component={NewsEdit} onEnter={this.requireAuth} />
+          <Route path='/remove/:id' component={RemoveNews} onEnter={this.requireAuth} />
           <Route path='/error' component={ErrorPage} />
         </Route>
       </Router>
@@ -53,7 +53,7 @@ class App extends React.Component {
 };
 
 App.childContextTypes = {
-  user: React.PropTypes.string
+  user: React.PropTypes.string,
 };
 
 export default App;

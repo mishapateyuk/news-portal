@@ -14,7 +14,7 @@ class NewsEdit extends React.Component {
     this.getNewsInfo = this.getNewsInfo.bind(this);
     this.addNews = this.addNews.bind(this);
     this.editNews = this.editNews.bind(this);
-    this.currentDate = (new Date()).toISOString().slice(0, -5).split('T').join(' ');
+    this.currentDate = (new Date()).toISOString().slice(0, -14).split('T').join(' ');
     this.onChangeTags = this.onChangeTags.bind(this);
   };
 
@@ -61,7 +61,7 @@ class NewsEdit extends React.Component {
       this.props.router.push(`detail/${newsInfo.id}`);
     } else {
       this.showTooltips();
-    }
+    };
   };
 
   editNews() {
@@ -72,7 +72,7 @@ class NewsEdit extends React.Component {
       this.props.router.push(`detail/${id}`);
     } else {
       this.showTooltips();
-    }
+    };
   };
 
   onChangeTags(value) {
@@ -111,7 +111,7 @@ class NewsEdit extends React.Component {
   render() {
     if (!this.props.routeParams.id || this.state.loaded) {
       const tagsOptions = getTags().map((tag) => {
-        return {value: tag, label:tag};
+        return {value: tag, label:tag,};
       });
       return (
         <div className="news-wrapper">
@@ -169,13 +169,13 @@ class NewsEdit extends React.Component {
         </div>
       );
     } else {
-      return <Loading />
-    }
+      return <Loading />;
+    };
   };
 };
 
 NewsEdit.contextTypes = {
-  user: React.PropTypes.string
+  user: React.PropTypes.string,
 };
 
 export default withRouter(NewsEdit);
