@@ -143,6 +143,7 @@ class NewsEdit extends React.Component {
               className="modal-select"
               onChange={this.onChangeTags}
               value={this.state.tags}
+              style={{width: 373}}
             />
           <span>
             <textarea
