@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import UserName from './UserName.react';
 import { checkAuthorizationData } from '../models/authorizationModel.js';
 import Modal from './Modal.react';
+import Auth from './Auth.react';
 
 class Header extends React.Component {
   constructor(props) {
@@ -15,11 +16,9 @@ class Header extends React.Component {
     this.modalButtonHandler = this.modalButtonHandler.bind(this);
   };
 
-  modalButtonHandler() {
-    const userName = this.loginInput.value;
-    const password = this.passwordInput.value;
-    if (checkAuthorizationData(userName, password)) {
-      this.props.changeUser(userName);
+  modalButtonHandler(login, password) {
+    if (checkAuthorizationData(login, password)) {
+      this.props.changeUser(login);
     } else {
       this.props.router.push('/error');
     };
@@ -52,34 +51,12 @@ class Header extends React.Component {
     });
   };
 
-  createModalChildren() {
-    return (
-      <div>
-        <label className="login">
-          Login: <input type="text" ref={(input) => this.loginInput = input} />
-        </label>
-        <label className="password">
-          Password: <input type="password" ref={(input) => this.passwordInput = input} />
-        </label>
-      </div>
-    );
-  };
-
-  configurateModalSettings() {
-    return {
-      modalIsShown: this.state.modalIsShown,
-      toggleModal: this.toggleModal,
-      modalTitle: 'Authorization form',
-      modalButtonText: 'Sign in',
-      modalChildren: this.createModalChildren(),
-      modalButtonHandler: this.modalButtonHandler,
-    };
-  };
-
   render() {
     return (
       <header className="page-header clearfix">
-        <Modal modalSettings={this.configurateModalSettings()} />
+        <Modal toggleModal={this.toggleModal} modalIsShown={this.state.modalIsShown}>
+          <Auth buttonHandler={this.modalButtonHandler}/>
+        </Modal>
         {this.signOutButton()}
         <button className="sign-in button" onClick={this.toggleModal}>Sign in</button>
         <UserName />
